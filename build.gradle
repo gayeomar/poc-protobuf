@@ -1,0 +1,51 @@
+
+plugins {
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'java'
+    id 'idea'
+    id 'com.google.protobuf' version '0.8.4'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+}
+
+group = 'com.omar.poc.protobuf'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+ext {
+    protobufVersion = '3.4.0'
+    protobufFormatVersion = '1.4'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/test/java");
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    generatedFilesBaseDir = "$projectDir/generated-code/proto"
+}
+
+dependencies {
+    protobuf files("generated-code/proto/main/java/com/omar/poc/protobuf/model")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
+    implementation "com.googlecode.protobuf-java-format:protobuf-java-format:${protobufFormatVersion}"
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

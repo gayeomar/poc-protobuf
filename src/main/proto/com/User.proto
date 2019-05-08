@@ -1,0 +1,11 @@
+syntax = "proto3";
+package  com.omar.poc.protobuf.model;
+
+option java_package = "com.omar.poc.protobuf.model";
+option java_outer_classname = "UserProtos";
+
+message User {
+    string name = 1;
+    int32 id = 2;
+    string email = 3;
+}
